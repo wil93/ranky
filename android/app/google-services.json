@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "379421993270",
+    "firebase_url": "https://ranky-flutter.firebaseio.com",
+    "project_id": "ranky-flutter",
+    "storage_bucket": "ranky-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379421993270:android:110d8d7411bc4e1f",
+        "android_client_info": {
+          "package_name": "org.ioinformatics.ranky"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379421993270-dpqe9ldcm78l9l590q4o7egbe1n9rsuc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo7-KN1jCzCEol-aG0_to1cM2NOIRm00U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379421993270-dpqe9ldcm78l9l590q4o7egbe1n9rsuc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
