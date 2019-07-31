@@ -147,7 +147,7 @@ class _ContestSelectionState extends State<ContestSelection> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Choose a contest'),
+        title: _events == null ? Text('Loading...') : Text('Choose a contest'),
         actions: <Widget>[
           PopupMenuButton<String>(
             onSelected: (s) {

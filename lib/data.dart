@@ -188,13 +188,14 @@ Future<List<Task>> getTasks(String url) async {
   List<Task> tasks = [];
   jsonDecode(response.body).forEach((key, e) {
     var task = Task(
-        id: key,
-        name: e["name"],
-        shortName: e["short_name"],
-        contest: e["contest"],
-        order: e["order"],
-        maxScore: e["max_score"],
-        scorePrecision: e["score_precision"]
+      id: key,
+      name: e["name"],
+      shortName: e["short_name"],
+      contest: e["contest"],
+      order: e["order"],
+      maxScore: e["max_score"],
+      scorePrecision: e["score_precision"],
+      numSubtasks: (e["extra_headers"] != null) ? e["extra_headers"].length : 1
     );
 
     tasks.add(task);
@@ -229,12 +230,22 @@ Future<List<Submission>> getSubmissions(Event event, String userId) async {
   List<Submission> subs = [];
 
   for (var e in jsonDecode(response.body)) {
-    subs.add(Submission(
+    var sub = Submission(
       id: e["key"],
       task: e["task"],
-      score: e["score"],
       time: e["time"]
-    ));
+    );
+
+    sub.subScore = List<double>();
+    if (e["extra"] == null) {
+      sub.subScore.add(e["score"]);
+    } else {
+      for (var i = 0; i < e["extra"].length; i++) {
+        sub.subScore.add(double.parse(e["extra"][i]));
+      }
+    }
+
+    subs.add(sub);
   }
 
   subs.sort((Submission a, Submission b) {
@@ -257,17 +268,23 @@ Future<List<Submission>> getSubmissions(Event event, String userId) async {
 
   var tasks = await getTasks(event.url);
 
-  Map<String, double> best = Map<String, double>();
+  Map<String, List<double>> best = Map<String, List<double>>();
   for (var t in tasks) {
-    best[t.id] = 0;
+    best[t.id] = List<double>();
+    for (var i = 0; i < t.numSubtasks; i++) {
+      best[t.id].add(0);
+    }
   }
 
   for (var i = subs.length - 1; i >= 0; i--) {
-    if (best[subs[i].task] < subs[i].score) {
-      subs[i].delta = subs[i].score - best[subs[i].task];
-      best[subs[i].task] = subs[i].score;
-    } else {
-      subs[i].delta = 0;
+    subs[i].delta = 0;
+    for (var j = 0; j < best[subs[i].task].length; j++) {
+      if (best[subs[i].task][j] < subs[i].subScore[j]) {
+        subs[i].delta += subs[i].subScore[j] - best[subs[i].task][j];
+        best[subs[i].task][j] = subs[i].subScore[j];
+      } else {
+        subs[i].subScore[j] = best[subs[i].task][j];
+      }
     }
   }
 

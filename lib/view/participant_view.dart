@@ -43,7 +43,7 @@ class _ParticipantState extends State<ParticipantView> {
       best[t.id] = 0;
     }
     for (var s in subs) {
-      best[s.task] = max(best[s.task], s.score);
+      best[s.task] = max(best[s.task], s.score());
     }
 
     List<MapEntry<String, double>> taskscore = [];
@@ -256,7 +256,7 @@ class _ParticipantState extends State<ParticipantView> {
       }
       ret.add(Center(child: Text(s.relTimeString())));
       ret.add(Center(child: Text(s.task)));
-      ret.add(Center(child: Text(s.score.toStringAsFixed(2))));
+      ret.add(Center(child: Text(s.score().toStringAsFixed(2))));
       ret.add(Center(child: Text(s.delta > 0 ? "+" + s.delta.toStringAsFixed(2) : "", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),)));
     }
 

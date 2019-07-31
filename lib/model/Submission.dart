@@ -2,7 +2,7 @@ class Submission {
   Submission({
     this.id,
     this.task,
-    this.score,
+    this.subScore,
     this.delta,
     this.time,
     this.relTime,
@@ -11,7 +11,7 @@ class Submission {
 
   String id;
   String task;
-  double score;
+  List<double> subScore;
   double delta;
   int time;
   int relTime;
@@ -21,5 +21,15 @@ class Submission {
     String ret = Duration(seconds: relTime).toString();
 
     return ret.substring(0, ret.indexOf("."));
+  }
+
+  double score() {
+    double total = 0;
+
+    for (var s in subScore) {
+      total += s;
+    }
+
+    return total;
   }
 }

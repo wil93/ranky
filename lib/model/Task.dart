@@ -6,7 +6,8 @@ class Task {
     this.contest,
     this.order,
     this.maxScore,
-    this.scorePrecision
+    this.scorePrecision,
+    this.numSubtasks
   });
 
   String id;
@@ -16,4 +17,5 @@ class Task {
   int order;
   double maxScore;
   int scorePrecision;
+  int numSubtasks;
 }
