@@ -52,10 +52,10 @@ Future<List<Event>> getEvents() async {
   var location;
   try {
     location = await Location().getLocation();
-  } on PlatformException catch (e) {
-    if (e.code == 'PERMISSION_DENIED') {
-      // report this somewhere?
-    }
+  } on Exception catch (e) {
+//    if (e.code == 'PERMISSION_DENIED') {
+//      // report this somewhere?
+//    }
     location = null;
   }
 
@@ -195,7 +195,7 @@ Future<List<Task>> getTasks(String url) async {
       order: e["order"],
       maxScore: e["max_score"],
       scorePrecision: e["score_precision"],
-      numSubtasks: (e["extra_headers"] != null) ? e["extra_headers"].length : 1
+      numSubtasks: (e["extra_headers"] == null || e["extra_headers"].length == 0) ? 1 : e["extra_headers"].length
     );
 
     tasks.add(task);
@@ -237,7 +237,7 @@ Future<List<Submission>> getSubmissions(Event event, String userId) async {
     );
 
     sub.subScore = List<double>();
-    if (e["extra"] == null) {
+    if (e["extra"] == null || e["extra"].length == 0) {
       sub.subScore.add(e["score"]);
     } else {
       for (var i = 0; i < e["extra"].length; i++) {
