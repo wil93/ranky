@@ -175,7 +175,7 @@ Future<List<Participant>> getParticipants(Event event) async {
   for (int i = 1; i < participants.length; i++) {
     participants[i].rank = participants[i - 1].rank;
     if (participants[i].score < participants[i - 1].score) {
-      participants[i].rank += 1;
+      participants[i].rank = i + 1;
     }
   }
 
